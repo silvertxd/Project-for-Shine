@@ -24,6 +24,8 @@ namespace Project.EditWindows
         public EditSellerWindow(Seller seller)
         {
             InitializeComponent();
+            var viewModelEdit = new EditSellerViewModel(seller);
+            DataContext = viewModelEdit;
             EditSeller = seller;
         }
 
@@ -36,10 +38,8 @@ namespace Project.EditWindows
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             txtBoxSellerName.Text = EditSeller.SellerName;
-            //MessageBox.Show(Convert.ToInt32(EditSeller.Discount * 100).ToString());
+            ////MessageBox.Show(Convert.ToInt32(EditSeller.Discount * 100).ToString());
             numericUpdownDiscount.Value = Convert.ToInt32(EditSeller.Discount * 100);
-   
-            var EditSellerVM = new EditSellerViewModel(EditSeller);
         }
     }
 }
