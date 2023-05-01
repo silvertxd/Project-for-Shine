@@ -1,13 +1,11 @@
-﻿using Project.Core;
-using Project.EditWindows;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
+using Project.Core;
 
 namespace Project.MVVM.ViewModel
 {
@@ -30,7 +28,7 @@ namespace Project.MVVM.ViewModel
 
         public EditSellerViewModel(Seller seller)
         {
-            SaveCommand = new RelayCommand(async o =>
+            SaveCommand = new RelayCommand(o =>
             {
                 var newSeller = seller;
                 

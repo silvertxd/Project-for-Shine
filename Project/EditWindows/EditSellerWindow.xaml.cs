@@ -24,10 +24,22 @@ namespace Project.EditWindows
         public EditSellerWindow(Seller seller)
         {
             InitializeComponent();
-            txtBoxSellerName.Text = seller.SellerName;
-            numericUpdownDiscount.Value = Convert.ToInt32(seller.Discount * 100);
             EditSeller = seller;
-            var EditSellerVM = new EditSellerViewModel(seller);
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            txtBoxSellerName.Text = EditSeller.SellerName;
+            //MessageBox.Show(Convert.ToInt32(EditSeller.Discount * 100).ToString());
+            numericUpdownDiscount.Value = Convert.ToInt32(EditSeller.Discount * 100);
+   
+            var EditSellerVM = new EditSellerViewModel(EditSeller);
         }
     }
 }
