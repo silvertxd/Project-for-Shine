@@ -1,0 +1,38 @@
+﻿<Application x:Class="Project.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Project"
+             xmlns:viewModel="clr-namespace:Project.MVVM.ViewModel"
+             xmlns:view="clr-namespace:Project.MVVM.View"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/CloseButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/MinimizeButtonTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
+                <view:HomeView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:OrdersViewModel}">
+                <view:OrdersView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:SuppliesViewModel}">
+                <view:SuppliesView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:SellersViewModel}">
+                <view:SellersView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:ExportViewModel}">
+                <view:ExportView/>
+            </DataTemplate>
+
+        </ResourceDictionary>         
+    </Application.Resources>
+</Application>
