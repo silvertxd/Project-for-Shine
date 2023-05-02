@@ -14,9 +14,6 @@
         AllowsTransparency="True"
         MouseDown="Window_MouseDown"
         Loaded="Window_Loaded">
-    <Window.DataContext>
-        <viewModel:EditSellerViewModel/>
-    </Window.DataContext>
     <Border Background="#062233"
             CornerRadius="10">
         <StackPanel>
@@ -37,12 +34,12 @@
                        Foreground="White"
                        FontSize="18" Margin="20"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <xctk:IntegerUpDown x:Name="numericUpdownDiscount" Value="{Binding Discount}" Minimum="0" Maximum="100" ShowButtonSpinner="False" Width="30" Margin="10, 0, 0, 0"/>
+                <xctk:IntegerUpDown x:Name="numericUpdownDiscount" Value="{Binding DiscountText}" Minimum="0" Maximum="100" ShowButtonSpinner="False" Width="30" Margin="10, 0, 0, 0"/>
                 <TextBlock Foreground="White"
                        FontSize="18" Text="%"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10, 0">
-                <Button x:Name="btnEdit" Content="Edit" Width="40" Margin="20"/>
+                <Button x:Name="btnEdit" Content="Edit" Width="40" Margin="20" Command="{Binding SaveCommand}"/>
                 <Button x:Name="btnCancel" Content="Cancel" Width="40" Margin="20" Command="{Binding CancelCommand}"/>
             </StackPanel>
 

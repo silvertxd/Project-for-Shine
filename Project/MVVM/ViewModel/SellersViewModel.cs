@@ -68,8 +68,8 @@ namespace Project.MVVM.ViewModel
                 {
                     using (var context = new ShineEntities())
                     {
-                        var sellerToRemove = await context.Seller.FindAsync(SelectedSeller.Id);
-                        var dialog = new EditSellerWindow(sellerToRemove);
+                        var sellerToEdit = await context.Seller.FindAsync(SelectedSeller.Id);
+                        var dialog = new EditSellerWindow(sellerToEdit);
                         dialog.ShowDialog();
                     }
                     

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +15,9 @@ namespace Project.MVVM.ViewModel
     public class EditSellerViewModel : ObservableObject
     {
         public RelayCommand SaveCommand { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand CancelCommand { get; set; }
         private Seller _seller;
+        private bool _changed = false;
 
         public Seller Seller
         {
@@ -28,14 +30,31 @@ namespace Project.MVVM.ViewModel
 
         }
 
-        private int _discount;
+        private double _discount;
 
-        public int Discount
+        public double Discount
         {
-            get { return _discount; }
+            get
+            {
+                return _discount;
+            }
             set 
-            { 
-                _discount = value; 
+            {
+                OnPropertyChanged();
+                _discount = value;
+                _changed = true;
+            }
+        }
+
+        public double DiscountText
+        {
+            get 
+            {
+                return _discount*100;  
+            }
+            set
+            {
+                _discount = value;
                 OnPropertyChanged();
             }
         }
@@ -61,10 +80,33 @@ namespace Project.MVVM.ViewModel
         public EditSellerViewModel(Seller seller)
         {
             Seller = seller; 
-            SaveCommand = new RelayCommand(o =>
+            SaveCommand = new RelayCommand(async o =>
             {
-                
-                
+                try
+                {
+                    using (var db = new ShineEntities())
+                    {
+                        var newSeller = db.Seller.Find(Seller.Id);
+                        newSeller.SellerName = SellerName;
+                        if(_discount > 1)
+                        {
+                            newSeller.Discount = _discount / 100;
+                        }
+                        else
+                        {
+                            newSeller.Discount = _discount;
+                        }
+                        await db.SaveChangesAsync();
+                        var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+                        window?.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+
+
             });
             CancelCommand = new RelayCommand(o =>
             {
