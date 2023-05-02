@@ -17,7 +17,6 @@ namespace Project.MVVM.ViewModel
         public RelayCommand SaveCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
         private Seller _seller;
-        private bool _changed = false;
 
         public Seller Seller
         {
@@ -89,13 +88,9 @@ namespace Project.MVVM.ViewModel
                         var newSeller = db.Seller.Find(Seller.Id);
                         newSeller.SellerName = SellerName;
                         if(_discount > 1)
-                        {
                             newSeller.Discount = _discount / 100;
-                        }
                         else
-                        {
                             newSeller.Discount = _discount;
-                        }
                         await db.SaveChangesAsync();
                         var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
                         window?.Close();
