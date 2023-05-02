@@ -41,7 +41,6 @@ namespace Project.MVVM.ViewModel
             {
                 OnPropertyChanged();
                 _discount = value;
-                _changed = true;
             }
         }
 
