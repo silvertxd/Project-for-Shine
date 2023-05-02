@@ -56,13 +56,13 @@
                              Style="{StaticResource MenuButtonTheme}"
                              IsChecked="True"
                              Command="{Binding HomeViewCommand}"/>
-                <RadioButton Content="Orders"
+                <RadioButton Content="Supplies"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding OrdersViewCommand}"/>
-                <RadioButton Content="Supplies"
+                <RadioButton Content="Products"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
