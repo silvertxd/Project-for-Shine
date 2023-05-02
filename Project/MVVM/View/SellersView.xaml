@@ -23,9 +23,13 @@
         <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Sellers, UpdateSourceTrigger=PropertyChanged}" Name="dg" 
           IsReadOnly="True" Grid.Row="0" Width="450" Grid.RowSpan="2" SelectedItem="{Binding SelectedSeller}">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Id"
+                                    Binding="{Binding Id}"
+                                    MinWidth="10"
+                                    />
                 <DataGridTextColumn Header="Seller name"
                                     Binding="{Binding SellerName}"
-                                    MinWidth="290"
+                                    MinWidth="240"
                                     />
                 <DataGridTextColumn Header="Personal discount" Binding="{Binding Discount, StringFormat=P2}"
                                     MaxWidth="110"/>

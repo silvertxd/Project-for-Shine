@@ -1,4 +1,5 @@
-﻿using Project.Core;
+﻿using Project.AddWindows;
+using Project.Core;
 using Project.EditWindows;
 using System;
 using System.Collections.ObjectModel;
@@ -49,9 +50,11 @@ namespace Project.MVVM.ViewModel
         {
             _context = new ShineEntities();
             LoadData();
-            AddCommand = new RelayCommand(o =>
+            AddCommand = new RelayCommand(async o =>
             {
-                MessageBox.Show("123");
+                var dialog = new AddSellerWindow();
+                dialog.ShowDialog();
+                await RefreshSellersAsync();
             });
 
             DeleteCommand = new RelayCommand(async o =>
@@ -71,6 +74,7 @@ namespace Project.MVVM.ViewModel
                         var sellerToEdit = await context.Seller.FindAsync(SelectedSeller.Id);
                         var dialog = new EditSellerWindow(sellerToEdit);
                         dialog.ShowDialog();
+                        await RefreshSellersAsync();
                     }
                     
                     

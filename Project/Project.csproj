@@ -83,6 +83,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddWindows\AddSellerWindow.xaml.cs">
+      <DependentUpon>AddSellerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditWindows\EditSellerWindow.xaml.cs">
       <DependentUpon>EditSellerWindow.xaml</DependentUpon>
     </Compile>
@@ -91,6 +94,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="MVVM\ViewModel\AddSellerViewModel.cs" />
     <Compile Include="MVVM\ViewModel\EditSellerViewModel.cs" />
     <Compile Include="Product.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -101,6 +105,10 @@
     <Compile Include="Supply.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Page Include="AddWindows\AddSellerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditWindows\EditSellerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

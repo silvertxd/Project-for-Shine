@@ -1,26 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Project.Core;
 
 namespace Project.MVVM.ViewModel
 {
-    public class EditSellerViewModel : ObservableObject
+    public class AddSellerViewModel : ObservableObject
     {
-        public RelayCommand SaveCommand { get; set; }
+        public RelayCommand AddCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
-        private Seller _seller;
-
-        public Seller Seller
-        {
-            get => _seller;
-            set
-            {
-                _seller = value;
-                OnPropertyChanged();
-            }
-
-        }
 
         private double _discount;
 
@@ -30,23 +25,10 @@ namespace Project.MVVM.ViewModel
             {
                 return _discount;
             }
-            set 
-            {
-                OnPropertyChanged();
-                _discount = value;
-            }
-        }
-
-        public double DiscountText
-        {
-            get 
-            {
-                return _discount*100;  
-            }
             set
             {
-                _discount = value;
                 OnPropertyChanged();
+                _discount = value;
             }
         }
 
@@ -55,50 +37,38 @@ namespace Project.MVVM.ViewModel
         public string SellerName
         {
             get { return _sellername; }
-            set 
+            set
             {
                 _sellername = value;
                 OnPropertyChanged();
             }
         }
 
-
-        public EditSellerViewModel(Seller seller)
+        public AddSellerViewModel()
         {
-            Seller = seller; 
-            SaveCommand = new RelayCommand(async o =>
+            AddCommand = new RelayCommand(async o =>
             {
-                try
+                if(string.IsNullOrEmpty(_sellername) || _discount == 0)
+                {
+                    MessageBox.Show("Some of fields are empty");
+                }
+                else
                 {
                     using (var db = new ShineEntities())
                     {
-                        var newSeller = db.Seller.Find(Seller.Id);
-                        newSeller.SellerName = _sellername;
-                        if(_discount > 1)
-                            newSeller.Discount = _discount / 100;
-                        else
-                            newSeller.Discount = _discount;
+                        db.Seller.Add(new Seller { SellerName = _sellername, Discount = _discount/100 });
                         await db.SaveChangesAsync();
                         var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
                         window?.Close();
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
-
-
             });
+
             CancelCommand = new RelayCommand(o =>
             {
                 var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
                 window?.Close();
             });
-
-
         }
-
-
     }
 }
