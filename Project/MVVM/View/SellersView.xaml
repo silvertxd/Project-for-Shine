@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <Button Height="20" Width="50"/>
         <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Sellers, UpdateSourceTrigger=PropertyChanged}" Name="dg" 
-          IsReadOnly="True" Grid.Row="0" Width="450" Grid.RowSpan="2" SelectedItem="{Binding SelectedSeller}">
+          IsReadOnly="True" Grid.Row="0" Width="450" Grid.RowSpan="2" SelectedItem="{Binding SelectedSeller}" Height="400" VerticalAlignment="Top">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id"
                                     Binding="{Binding Id}"

@@ -63,6 +63,8 @@ namespace Project.MVVM.ViewModel
                 {
                     await DeleteSellerAsync();
                 }
+                else
+                    MessageBox.Show("Seler seller first");
             });
 
             EditCommand = new RelayCommand(async o =>
@@ -76,9 +78,9 @@ namespace Project.MVVM.ViewModel
                         dialog.ShowDialog();
                         await RefreshSellersAsync();
                     }
-                    
-                    
                 }
+                else
+                    MessageBox.Show("Seler seller first");
             });
 
 
