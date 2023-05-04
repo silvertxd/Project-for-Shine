@@ -19,8 +19,8 @@ namespace Project.MVVM.ViewModel
         public RelayCommand ExportViewCommand { get; set; }
 
         public HomeViewModel HomeVM { get; set; }
-        public OrdersViewModel OrdersVM { get; set; }
-        public SuppliesViewModel SuppliesVM { get; set; }
+        public SuppliesViewModel OrdersVM { get; set; }
+        public ProductsViewModel SuppliesVM { get; set; }
         public SellersViewModel SellersVM { get; set; }
         public ExportViewModel ExportVM { get; set; }
 
@@ -40,8 +40,8 @@ namespace Project.MVVM.ViewModel
         public MainViewModel()
         {
             HomeVM = new HomeViewModel();
-            OrdersVM = new OrdersViewModel();
-            SuppliesVM = new SuppliesViewModel();
+            OrdersVM = new SuppliesViewModel();
+            SuppliesVM = new ProductsViewModel();
             SellersVM = new SellersViewModel();
             ExportVM = new ExportViewModel();
             CurrentView = HomeVM;

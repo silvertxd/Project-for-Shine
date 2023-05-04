@@ -17,8 +17,8 @@
                 <view:HomeView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type viewModel:OrdersViewModel}">
-                <view:OrdersView/>
+            <DataTemplate DataType="{x:Type viewModel:ProductsViewModel}">
+                <view:ProductsView/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModel:SuppliesViewModel}">

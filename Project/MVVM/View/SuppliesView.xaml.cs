@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace Project.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for SuppliesView.xaml
+    /// Interaction logic for OrdersView.xaml
     /// </summary>
     public partial class SuppliesView : UserControl
     {

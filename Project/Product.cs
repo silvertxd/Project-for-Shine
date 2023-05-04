@@ -21,7 +21,7 @@ namespace Project
         }
     
         public int Id { get; set; }
-        public string SupplyName { get; set; }
+        public string ProductName { get; set; }
         public double Price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

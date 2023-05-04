@@ -13,22 +13,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Project.EditWindows
+namespace Project.AddWindows
 {
     /// <summary>
-    /// Interaction logic for EditSellerWindow.xaml
+    /// Interaction logic for AddProductWindow.xaml
     /// </summary>
-    public partial class EditSellerWindow : Window
+    public partial class AddProductWindow : Window
     {
-        public EditSellerWindow(Seller seller)
+        public AddProductWindow()
         {
             InitializeComponent();
-            var viewModelEdit = new EditSellerViewModel(seller);
-            viewModelEdit.SellerName = seller.SellerName;
-            viewModelEdit.Discount = seller.Discount;
-
-            DataContext = viewModelEdit;
-            
+            var viewModelAdd = new AddProductViewModel();
+            DataContext = viewModelAdd;
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -36,6 +32,5 @@ namespace Project.EditWindows
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
         }
-
     }
 }

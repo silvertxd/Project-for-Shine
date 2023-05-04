@@ -83,29 +83,55 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddWindows\AddProductWindow.xaml.cs">
+      <DependentUpon>AddProductWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddWindows\AddSellerWindow.xaml.cs">
       <DependentUpon>AddSellerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditWindows\EditProductWindow.xaml.cs">
+      <DependentUpon>EditProductWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditWindows\EditSellerWindow.xaml.cs">
       <DependentUpon>EditSellerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
+    <Compile Include="MVVM\ViewModel\AddProductViewModel.cs" />
     <Compile Include="MVVM\ViewModel\AddSellerViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\EditProductViewModel.cs" />
     <Compile Include="MVVM\ViewModel\EditSellerViewModel.cs" />
     <Compile Include="Product.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ShineEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Seller.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ShineEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShineEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShineEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShineEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShineEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShineEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShineEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Supply.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ShineEntities.tt</DependentUpon>
     </Compile>
+    <Page Include="AddWindows\AddProductWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AddWindows\AddSellerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditWindows\EditProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -135,7 +161,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MVVM\View\OrdersView.xaml">
+    <Page Include="MVVM\View\SuppliesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -143,7 +169,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MVVM\View\SuppliesView.xaml">
+    <Page Include="MVVM\View\ProductsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,36 +187,26 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Compile>
     <Compile Include="MVVM\ViewModel\ExportViewModel.cs" />
     <Compile Include="MVVM\ViewModel\HomeViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MainViewModel.cs" />
-    <Compile Include="MVVM\ViewModel\OrdersViewModel.cs" />
-    <Compile Include="MVVM\ViewModel\SellersViewModel.cs" />
     <Compile Include="MVVM\ViewModel\SuppliesViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\SellersViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\ProductsViewModel.cs" />
     <Compile Include="MVVM\View\ExportView.xaml.cs">
       <DependentUpon>ExportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\View\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MVVM\View\OrdersView.xaml.cs">
-      <DependentUpon>OrdersView.xaml</DependentUpon>
+    <Compile Include="MVVM\View\SuppliesView.xaml.cs">
+      <DependentUpon>SuppliesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\View\SellersView.xaml.cs">
       <DependentUpon>SellersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MVVM\View\SuppliesView.xaml.cs">
-      <DependentUpon>SuppliesView.xaml</DependentUpon>
+    <Compile Include="MVVM\View\ProductsView.xaml.cs">
+      <DependentUpon>ProductsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -209,17 +225,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <EntityDeploy Include="ShineEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ShineEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ShineEntities.edmx.diagram">
+      <DependentUpon>ShineEntities.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -232,15 +248,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Model1.Context.tt">
+    <Content Include="ShineEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+      <DependentUpon>ShineEntities.edmx</DependentUpon>
+      <LastGenOutput>ShineEntities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Model1.tt">
+    <Content Include="ShineEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
+      <DependentUpon>ShineEntities.edmx</DependentUpon>
+      <LastGenOutput>ShineEntities.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
