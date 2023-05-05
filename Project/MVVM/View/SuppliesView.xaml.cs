@@ -23,6 +23,7 @@ namespace Project.MVVM.View
         public SuppliesView()
         {
             InitializeComponent();
+            
         }
     }
 }

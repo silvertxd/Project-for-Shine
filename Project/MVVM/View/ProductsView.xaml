@@ -43,10 +43,10 @@
                    Foreground="White"
                    FontSize="22"
                    Grid.Column="1"/>
-            <Button x:Name="btnAddSeller" Content="Add product" Width="100" Margin="10" Command="{Binding AddCommand}"/>
-            <Button x:Name="btnDelSeller" Content="Delete product" Width="100" Margin="10" Command="{Binding DeleteCommand}"/>
-            <Button x:Name="btnEditSeller" Content="Edit product" Width="100" Margin="10" Command="{Binding EditCommand}"/>
-            <Button x:Name="btnRefresh" Content="Refresh" Width="100" Margin="10" Command="{Binding RefreshCommand}"/>
+            <Button Content="Add product" Width="100" Margin="10" Command="{Binding AddCommand}"/>
+            <Button Content="Delete product" Width="100" Margin="10" Command="{Binding DeleteCommand}"/>
+            <Button Content="Edit product" Width="100" Margin="10" Command="{Binding EditCommand}"/>
+            <Button Content="Refresh" Width="100" Margin="10" Command="{Binding RefreshCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

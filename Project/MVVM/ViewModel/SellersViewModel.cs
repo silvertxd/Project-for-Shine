@@ -20,7 +20,7 @@ namespace Project.MVVM.ViewModel
         public RelayCommand RefreshCommand { get; set; }
         private readonly ShineEntities _context;
         private ObservableCollection<Seller> _sellers;
-
+        
 
     
 

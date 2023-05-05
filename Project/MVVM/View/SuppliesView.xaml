@@ -3,10 +3,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewModel="clr-namespace:Project.MVVM.ViewModel"
              xmlns:local="clr-namespace:Project.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewModel:SuppliesViewModel/>
+    </UserControl.DataContext>
     <Grid>
-        <TextBlock Text="Orders" Foreground="White"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button Height="20" Width="50"/>
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding DisplaySupplies}" SelectedItem="{Binding SelectedSupply}" Name="dg" 
+          IsReadOnly="True" Grid.Row="0" Width="600" Grid.RowSpan="2" Height="400" VerticalAlignment="Top">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Supply Date" Binding="{Binding SupplyDateStr}" />
+                <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}" />
+                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
+                <DataGridTextColumn Header="Seller Name" Binding="{Binding SellerName}" />
+                <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="10">
+            <TextBlock Text="Operations"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Center"
+                   Foreground="White"
+                   FontSize="22"
+                   Grid.Column="1"/>
+            <Button Content="Add supply" Width="100" Margin="10" Command="{Binding AddCommand}"/>
+            <Button Content="Delete supply" Width="100" Margin="10" Command="{Binding DeleteCommand}"/>
+            <Button Content="Edit supply" Width="100" Margin="10" Command="{Binding EditCommand}"/>
+            <Button Content="Refresh" Width="100" Margin="10" Command="{Binding RefreshCommand}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

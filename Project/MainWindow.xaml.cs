@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,6 +25,24 @@ namespace Project
         public MainWindow()
         {
             InitializeComponent();
+            using (var context = new ShineEntities())
+            {
+                var supplyData = from s in context.Supply
+                                 join p in context.Product on s.ProductId equals p.Id
+                                 join sl in context.Seller on s.SellerId equals sl.Id
+                                 select new
+                                 {
+                                     s.Id,
+                                     s.SupplyDate,
+                                     ProductName = p.ProductName,
+                                     s.Quantity,
+                                     SellerName = sl.SellerName,
+                                     s.TotalPrice
+                                 };
+                
+            }
+            
+
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

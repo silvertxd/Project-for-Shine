@@ -123,6 +123,7 @@
     <Compile Include="Supply.cs">
       <DependentUpon>ShineEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="SupplyDg.cs" />
     <Page Include="AddWindows\AddProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
