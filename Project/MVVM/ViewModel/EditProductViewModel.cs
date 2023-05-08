@@ -5,7 +5,7 @@ using Project.Core;
 
 namespace Project.MVVM.ViewModel
 {
-    public class EditProductViewModel :ObservableObject
+    public class EditProductViewModel : ObservableObject
     {
         public RelayCommand SaveCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }

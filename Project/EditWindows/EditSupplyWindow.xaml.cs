@@ -1,10 +1,7 @@
-﻿using Project.EditWindows;
+﻿using Project.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,21 +11,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Project
+namespace Project.EditWindows
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for EditSupplyWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class EditSupplyWindow : Window
     {
-        public MainWindow()
+        public EditSupplyWindow(Supply supply)
         {
             InitializeComponent();
+            var viewModelEdit = new EditSupplyViewModel(supply);
+            viewModelEdit.Quantity = supply.Quantity;
+            viewModelEdit.SellerId = supply.SellerId;
+            viewModelEdit.ProductId = supply.ProductId;
+            viewModelEdit.SupplyDate = supply.SupplyDate;
             
-
+            DataContext = viewModelEdit;
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

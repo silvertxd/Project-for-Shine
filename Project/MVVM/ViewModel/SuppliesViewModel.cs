@@ -72,6 +72,12 @@ namespace Project.MVVM.ViewModel
                     SellerName = sl.SellerName,
                     TotalPrice = s.TotalPrice
                 });
+            AddCommand = new RelayCommand(o =>
+            {
+                var dialog = new AddSupplyWindow();
+                dialog.ShowDialog();
+                RefreshSuppliesAsync();
+            });
             DeleteCommand = new RelayCommand(async o =>
             {
                 if (SelectedSupply != null)

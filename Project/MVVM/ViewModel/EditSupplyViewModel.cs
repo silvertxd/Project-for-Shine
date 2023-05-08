@@ -1,0 +1,116 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using Project.Core;
+
+namespace Project.MVVM.ViewModel
+{
+    public class EditSupplyViewModel : ObservableObject
+    {
+        public RelayCommand SaveCommand { get; set; }
+        public RelayCommand CancelCommand { get; set; }
+        private Supply _supply;
+
+        public Supply Supply
+        {
+            get => _supply; 
+            set
+            {
+                _supply = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private List<Seller> _sellers;
+        public List<Seller> Sellers
+        {
+            get => _sellers;
+            set
+            {
+                _sellers = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private List<Product> _products;
+        public List<Product> Products
+        {
+            get => _products;
+            set
+            {
+                _products = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private int _productId;
+
+        public int ProductId
+        {
+            get => _productId;
+            set
+            {
+                OnPropertyChanged();
+                _productId = value;
+            }
+        }
+
+        private int _sellerId;
+
+        public int SellerId
+        {
+            get => _sellerId;
+            set
+            {
+                OnPropertyChanged();
+                _sellerId = value;
+            }
+        }
+
+        private int _quantity;
+
+        public int Quantity
+        {
+            get => _quantity;
+            set
+            {
+                OnPropertyChanged();
+                _quantity = value;
+            }
+        }
+
+        private DateTime _supplydate;
+
+        public DateTime SupplyDate
+        {
+            get => _supplydate;
+            set
+            {
+                OnPropertyChanged();
+                _supplydate = value;
+            }
+
+        }
+
+
+
+
+
+        public EditSupplyViewModel(Supply supply)
+        {
+            Supply = supply;
+            SaveCommand = new RelayCommand(o =>
+            {
+
+            });
+
+            CancelCommand = new RelayCommand(o =>
+            {
+                var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+                window?.Close();
+            });
+        }
+    }
+}

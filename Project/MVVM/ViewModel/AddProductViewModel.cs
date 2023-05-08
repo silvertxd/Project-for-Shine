@@ -12,7 +12,7 @@ using Project.Core;
 
 namespace Project.MVVM.ViewModel
 {
-    public class AddProductViewModel :ObservableObject
+    public class AddProductViewModel : ObservableObject
     {
         public RelayCommand AddCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
@@ -51,7 +51,7 @@ namespace Project.MVVM.ViewModel
         {
             AddCommand = new RelayCommand(async o =>
             {
-                if (string.IsNullOrEmpty(_productName) || _price == 0)
+                if (string.IsNullOrEmpty(_productName))
                 {
                     MessageBox.Show("Some of fields are empty");
                 }

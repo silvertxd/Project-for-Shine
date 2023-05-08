@@ -25,7 +25,7 @@ namespace Project.EditWindows
             InitializeComponent();
             var viewModelEdit = new EditProductViewModel(product);
             viewModelEdit.ProductName = product.ProductName;
-            viewModelEdit.Price = product.Price;    
+            viewModelEdit.Price = (double)product.Price;    
 
             DataContext = viewModelEdit;
         }
