@@ -28,8 +28,9 @@
                 <DataGridTextColumn Header="Supply Date" Binding="{Binding SupplyDateStr}" />
                 <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}" />
                 <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
-                <DataGridTextColumn Header="Seller Name" Binding="{Binding SellerName}" />
                 <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice}" />
+                <DataGridTextColumn Header="Seller Name" Binding="{Binding SellerName}" />
+
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Orientation="Vertical" Grid.Column="1" Margin="10">

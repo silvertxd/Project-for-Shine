@@ -103,7 +103,7 @@ namespace Project.MVVM.ViewModel
                 {
                     double price = db.Product.Find(ProductId).Price;
                     double discount = db.Seller.Find(SellerId).Discount;
-                    double discPrice = price*discount;
+                    double discPrice = price-(price*discount);
                     double fullPrice = discPrice * Quantity;
                     db.Supply.Add(new Supply { ProductId = ProductId, SellerId = SellerId, SupplyDate = SupplyDate,
                     Quantity = Quantity, TotalPrice = (double)fullPrice});
