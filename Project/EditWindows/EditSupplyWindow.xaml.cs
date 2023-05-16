@@ -28,7 +28,7 @@ namespace Project.EditWindows
             viewModelEdit.SellerId = supply.SellerId;
             viewModelEdit.ProductId = supply.ProductId;
             viewModelEdit.SupplyDate = supply.SupplyDate;
-            
+            viewModelEdit.SelectedSupply = supply;
             DataContext = viewModelEdit;
         }
 

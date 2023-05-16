@@ -4,15 +4,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModel="clr-namespace:Project.MVVM.ViewModel"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:Project.MVVM.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="620" d:DesignWidth="1060">
     <UserControl.DataContext>
         <viewModel:ExportViewModel/>
     </UserControl.DataContext>
-    <StackPanel>
 
-        <Button Width="50" Height="50" Content="123" Command="{Binding TotalSalesCountCommand}"/>
-        <Button Width="50" Height="50" Content="333" Command="{Binding CountBySellerCommand}"/>
+    <UserControl.Resources>
+        <local:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel HorizontalAlignment="Left">
+        <StackPanel Orientation="Horizontal">
+            <ComboBox Height="40" 
+                  Width="250" 
+                  Style="{StaticResource MyComboBoxStyle}" 
+                  ItemsSource="{Binding Dates}"
+                  SelectedItem="{Binding SelectedDate}"
+                  Text="123"
+                  
+                  />
+            <DatePicker Width="200" SelectedDate="{Binding DateStart}" IsEnabled="{Binding EnableCalendar}" />
+            <DatePicker Width="200" SelectedDate="{Binding DateEnd}" IsEnabled="{Binding EnableCalendar}" />
+        </StackPanel>
+
+        <TextBlock Text="Choose document"
+                   Foreground="White"
+                   FontSize="22"/>
+        <StackPanel Orientation="Horizontal">
+            <RadioButton Foreground="White" Content="TotalSales" IsChecked="{Binding TypeCommand, Converter={StaticResource StringToBooleanConverter}, ConverterParameter='TotalSales'}"
+                         Command="{Binding ProductSalesCommand}"/>
+            <RadioButton Foreground="White" Content="TotalSeller" IsChecked="{Binding TypeCommand, Converter={StaticResource StringToBooleanConverter}, ConverterParameter='TotalSeller'}"
+                         Command="{Binding SalesBySellerCommand}"/>
+        </StackPanel>
+        <Button Height="20" Width="70" Content="Export" Command="{Binding ExportCommand}"/>
     </StackPanel>
 </UserControl>

@@ -12,6 +12,18 @@ namespace Project.MVVM.ViewModel
         public RelayCommand CancelCommand { get; set; }
         private Supply _supply;
 
+        private Supply _selectedSupply;
+
+        public Supply SelectedSupply
+        {
+            get => _selectedSupply;
+            set
+            {
+                OnPropertyChanged();
+                _selectedSupply = value;
+            }
+        }
+
         public Supply Supply
         {
             get => _supply; 
@@ -101,9 +113,29 @@ namespace Project.MVVM.ViewModel
         public EditSupplyViewModel(Supply supply)
         {
             Supply = supply;
-            SaveCommand = new RelayCommand(o =>
+            using (var db = new ShineEntities())
             {
-
+                Sellers = db.Seller.ToList();
+                Products = db.Product.ToList();
+            }
+            SaveCommand = new RelayCommand(async o =>
+            {
+                using(var db = new ShineEntities())
+                {
+                    var newSupply = db.Supply.Find(Supply.Id);
+                    newSupply.Quantity = _quantity;
+                    newSupply.SupplyDate = _supplydate;
+                    newSupply.SellerId = _sellerId;
+                    newSupply.ProductId = _productId;
+                    double price = db.Product.Find(ProductId).Price;
+                    double discount = db.Seller.Find(SellerId).Discount;
+                    double discPrice = price - (price * discount);
+                    double fullPrice = discPrice * Quantity;
+                    newSupply.TotalPrice = fullPrice;
+                    await db.SaveChangesAsync();
+                    var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+                    window?.Close();
+                }
             });
 
             CancelCommand = new RelayCommand(o =>

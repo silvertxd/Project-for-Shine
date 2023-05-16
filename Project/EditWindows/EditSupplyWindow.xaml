@@ -33,6 +33,7 @@
                        Foreground="White"
                        FontSize="18" Margin="0, 20"/>
             <ComboBox Width="200" 
+                      x:Name="cmbbxSeller"
                       ItemsSource="{Binding Sellers}"
                       DisplayMemberPath="SellerName" 
                       SelectedValuePath="Id"
@@ -43,10 +44,12 @@
                        Foreground="White"
                        FontSize="18" Margin="0, 20"/>
             <ComboBox Width="200" 
+                      x:Name="cmbbxProduct"
                       ItemsSource="{Binding Products}"
                       DisplayMemberPath="ProductName" 
                       SelectedValuePath="Id"
-                      SelectedValue="{Binding ProductId}" />
+                      SelectedValue="{Binding ProductId}"
+                      />
             <TextBlock Text="Quantity"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
@@ -54,7 +57,7 @@
                        FontSize="18" Margin="0, 20"/>
             <xctk:IntegerUpDown x:Name="numericUpdownDiscount" Value="{Binding Quantity}" ShowButtonSpinner="False" Width="100"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10, 0">
-                <Button x:Name="btnEdit" Content="Add" Width="40" Margin="20" Command="{Binding AddCommand}"/>
+                <Button x:Name="btnEdit" Content="Save" Width="40" Margin="20" Command="{Binding SaveCommand}"/>
                 <Button x:Name="btnCancel" Content="Cancel" Width="40" Margin="20" Command="{Binding CancelCommand}"/>
             </StackPanel>
         </StackPanel>

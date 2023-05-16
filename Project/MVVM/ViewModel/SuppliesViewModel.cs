@@ -87,6 +87,21 @@ namespace Project.MVVM.ViewModel
                 else
                     MessageBox.Show("Seler seller first");
             });
+            EditCommand = new RelayCommand(async o =>
+            {
+                if(SelectedSupply!= null)
+                {
+                    using (var context = new ShineEntities())
+                    {
+                        var supplyToEdit = await context.Supply.FindAsync(SelectedSupply.Id);
+                        var dialog = new EditSupplyWindow(supplyToEdit);
+                        dialog.ShowDialog();
+                        RefreshSuppliesAsync();
+                    }
+                }
+                else
+                    MessageBox.Show("Seler supply first");
+            });
         }
 
         private async Task DeleteSupplyAsync()

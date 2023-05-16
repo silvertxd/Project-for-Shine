@@ -12,13 +12,11 @@ namespace Project.MVVM.ViewModel
     {
         public RelayCommand MinimizeCommand { get; set; }
         public RelayCommand CloseCommand { get; set; }
-        public RelayCommand HomeViewCommand { get; set; }
         public RelayCommand OrdersViewCommand { get; set; }
         public RelayCommand SuppliesViewCommand { get; set; }
         public RelayCommand SellersViewCommand { get; set; }
         public RelayCommand ExportViewCommand { get; set; }
 
-        public HomeViewModel HomeVM { get; set; }
         public SuppliesViewModel OrdersVM { get; set; }
         public ProductsViewModel SuppliesVM { get; set; }
         public SellersViewModel SellersVM { get; set; }
@@ -39,17 +37,12 @@ namespace Project.MVVM.ViewModel
 
         public MainViewModel()
         {
-            HomeVM = new HomeViewModel();
             OrdersVM = new SuppliesViewModel();
             SuppliesVM = new ProductsViewModel();
             SellersVM = new SellersViewModel();
             ExportVM = new ExportViewModel();
-            CurrentView = HomeVM;
+            CurrentView = OrdersVM;
 
-            HomeViewCommand = new RelayCommand(o =>
-            {
-                CurrentView = HomeVM;
-            });
 
             OrdersViewCommand = new RelayCommand(o =>
             {

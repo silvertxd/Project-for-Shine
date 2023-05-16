@@ -19,6 +19,7 @@
     <Border Background="#062233"
             CornerRadius="10">
         <StackPanel>
+            
             <TextBlock Text="Add supply"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
