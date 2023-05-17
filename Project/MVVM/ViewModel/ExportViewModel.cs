@@ -21,6 +21,9 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
+using Telegram.Bot;
+using Telegram.Bot.Args;
+using System.Net.Http;
 
 namespace Project.MVVM.ViewModel
 {
@@ -28,6 +31,7 @@ namespace Project.MVVM.ViewModel
     public class ExportViewModel : ObservableObject
     {
         public RelayCommand ExportCommand { get; set; }
+        public RelayCommand ExportCommandTelegram { get; set; }
         public RelayCommand ProductSalesCommand { get; set; }
         public RelayCommand SalesBySellerCommand { get; set; }
         public RelayCommand ChangedCommand { get; set; }
@@ -179,6 +183,61 @@ namespace Project.MVVM.ViewModel
                     }
                 }
             });
+            ExportCommandTelegram = new RelayCommand(async o =>
+            {
+                if (TypeCommand == TypeCommands.TotalSales)
+                {
+                    switch (SelectedDate)
+                    {
+                        case "All time":
+                            await TotalSalesCountExportTelegram(new DateTime(0001, 1, 1), DateTime.Now);
+                            break;
+                        case "Last month":
+                            await TotalSalesCountExportTelegram(DateTime.Now.AddMonths(-1), DateTime.Now);
+                            break;
+                        case "Last 3 month":
+                            await TotalSalesCountExportTelegram(DateTime.Now.AddMonths(-3), DateTime.Now);
+                            break;
+                        case "Last 6 month":
+                            await TotalSalesCountExportTelegram(DateTime.Now.AddMonths(-6), DateTime.Now);
+                            break;
+                        case "Last year":
+                            await TotalSalesCountExportTelegram(DateTime.Now.AddYears(-1), DateTime.Now);
+                            break;
+                        case "Certain range":
+                            if (DateStart < DateEnd)
+                                await TotalSalesCountExportTelegram(DateStart, DateEnd);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (SelectedDate)
+                    {
+                        case "All time":
+                            await CountBySellerExportTelegram(new DateTime(0001, 1, 1), DateTime.Now);
+                            break;
+                        case "Last month":
+                            await CountBySellerExportTelegram(DateTime.Now.AddMonths(-1), DateTime.Now);
+                            break;
+                        case "Last 3 month":
+                            await CountBySellerExportTelegram(DateTime.Now.AddMonths(-3), DateTime.Now);
+                            break;
+                        case "Last 6 month":
+                            await CountBySellerExportTelegram(DateTime.Now.AddMonths(-6), DateTime.Now);
+                            break;
+                        case "Last year":
+                            await CountBySellerExportTelegram(DateTime.Now.AddYears(-1), DateTime.Now);
+                            break;
+                        case "Certain range":
+                            if (DateStart < DateEnd)
+                                await CountBySellerExportTelegram(DateStart, DateEnd);
+                            break;
+                    }
+                }
+            });
+
+
             ProductSalesCommand = new RelayCommand(o =>
             {
                 TypeCommand = TypeCommands.TotalSales;
@@ -194,6 +253,178 @@ namespace Project.MVVM.ViewModel
 
         }
 
+        public async Task TotalSalesCountExportTelegram(DateTime startDate, DateTime endDate)
+        {
+            using (var context = new ShineEntities())
+            {
+                var sellers = context.Seller.ToList();
+                var products = context.Product.ToList();
+
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                var excelPackage = new ExcelPackage();
+
+                var worksheet = excelPackage.Workbook.Worksheets.Add("Количество проданного товара");
+
+                // Add the date range row at the top
+                worksheet.Cells["A1"].Value = $"Промежуток: {startDate.ToShortDateString()} - {endDate.ToShortDateString()}";
+                worksheet.Cells["A1"].Style.Font.Bold = true;
+
+                worksheet.Cells[2, 1].Value = "Наименование";
+
+                for (int i = 0; i < sellers.Count; i++)
+                {
+                    worksheet.Cells[2, i + 2].Value = sellers[i].SellerName;
+                }
+
+                worksheet.Cells[2, sellers.Count + 2].Value = "Общее количество продаж";
+
+                int row = 3;
+
+                foreach (var product in products)
+                {
+                    worksheet.Cells[row, 1].Value = product.ProductName;
+
+                    int productSalesTotal = 0;
+
+                    for (int i = 0; i < sellers.Count; i++)
+                    {
+                        int sellerId = sellers[i].Id;
+                        var salesTotal = context.Supply
+                            .Where(s => s.SellerId == sellerId && s.ProductId == product.Id && s.SupplyDate >= startDate && s.SupplyDate <= endDate)
+                            .Select(s => s.Quantity)
+                            .DefaultIfEmpty(0)
+                            .Sum();
+
+                        worksheet.Cells[row, i + 2].Value = salesTotal;
+
+                        productSalesTotal += salesTotal;
+                    }
+
+                    worksheet.Cells[row, sellers.Count + 2].Value = productSalesTotal;
+
+                    row++;
+                }
+
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                using (var stream = new MemoryStream())
+                {
+                    excelPackage.SaveAs(stream);
+                    stream.Position = 0;
+
+                    string telegramBotToken = "6188195711:AAF-SG6kEvOtGE1G_5a1HGatG3J6Z5K-OXs";
+                    long chatId = 502493346;
+
+                    var botClient = new TelegramBotClient(telegramBotToken);
+
+                    string tempFilePath = Path.GetTempFileName();
+
+                    using (var fileStream = new FileStream(tempFilePath, FileMode.Create))
+                    {
+                        await stream.CopyToAsync(fileStream);
+                    }
+
+                    using (var fileStream = new FileStream(tempFilePath, FileMode.Open))
+                    {
+                        var httpClient = new HttpClient();
+                        var streamContent = new StreamContent(fileStream);
+
+                        var formData = new MultipartFormDataContent();
+                        formData.Add(streamContent, "document", "TotalSales.xlsx");
+
+                        var response = await httpClient.PostAsync($"https://api.telegram.org/bot{telegramBotToken}/sendDocument?chat_id={chatId}", formData);
+                    }
+
+                    File.Delete(tempFilePath);
+                }
+            }
+        }
+
+        public async Task CountBySellerExportTelegram(DateTime startDate, DateTime endDate)
+        {
+            using (var context = new ShineEntities())
+            {
+                var sellers = context.Seller.ToList();
+                var products = context.Product.ToList();
+
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                var excelPackage = new ExcelPackage();
+
+                foreach (var seller in sellers)
+                {
+                    var worksheet = excelPackage.Workbook.Worksheets.Add(seller.SellerName);
+
+                    // Add the date range row at the top
+                    worksheet.Cells["A1:D1"].Merge = true;
+                    worksheet.Cells[1, 1].Value = $"Промежуток: {startDate.ToShortDateString()} - {endDate.ToShortDateString()}";
+                    worksheet.Cells[1, 1].Style.Font.Bold = true;
+
+                    worksheet.Cells[2, 1].Value = "Наименование";
+                    worksheet.Cells[2, 2].Value = "Количество";
+                    worksheet.Cells[2, 3].Value = "Цена за единицу";
+                    worksheet.Cells[2, 4].Value = "Сумма";
+                    int row = 3;
+
+                    foreach (var product in products)
+                    {
+                        worksheet.Cells[row, 1].Value = product.ProductName;
+                        var supply = context.Supply
+                            .Where(s => s.SellerId == seller.Id && s.ProductId == product.Id && s.SupplyDate >= startDate && s.SupplyDate < endDate)
+                            .Select(s => new { s.Quantity, s.TotalPrice })
+                            .FirstOrDefault();
+
+                        if (supply != null)
+                        {
+                            var pricePerItem = product.Price - (product.Price * seller.Discount);
+
+                            worksheet.Cells[row, 2].Value = supply.Quantity;
+                            worksheet.Cells[row, 3].Value = pricePerItem;
+                            worksheet.Cells[row, 4].Value = supply.Quantity * pricePerItem;
+                        }
+
+                        row++;
+                    }
+
+                    worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    excelPackage.SaveAs(stream);
+                    stream.Position = 0;
+
+                    string telegramBotToken = "6188195711:AAF-SG6kEvOtGE1G_5a1HGatG3J6Z5K-OXs";
+                    long chatId = 502493346;
+
+                    var botClient = new TelegramBotClient(telegramBotToken);
+
+                    string tempFilePath = Path.GetTempFileName();
+
+                    using (var fileStream = new FileStream(tempFilePath, FileMode.Create))
+                    {
+                        await stream.CopyToAsync(fileStream);
+                    }
+
+                    using (var fileStream = new FileStream(tempFilePath, FileMode.Open))
+                    {
+                        var httpClient = new HttpClient();
+                        var streamContent = new StreamContent(fileStream);
+
+                        var formData = new MultipartFormDataContent();
+                        formData.Add(streamContent, "document", "TotalSellers.xlsx");
+
+                        var response = await httpClient.PostAsync($"https://api.telegram.org/bot{telegramBotToken}/sendDocument?chat_id={chatId}", formData);
+                    }
+
+                    File.Delete(tempFilePath);
+                }
+            }
+        }
+
+
+
+
+
         public void TotalSalesCountExport(DateTime startDate, DateTime endDate)
         {
             using (var context = new ShineEntities())
@@ -206,16 +437,20 @@ namespace Project.MVVM.ViewModel
 
                 var worksheet = excelPackage.Workbook.Worksheets.Add("Количество проданного товара");
 
-                worksheet.Cells[1, 1].Value = "Наименование";
+                // Add the date range row at the top
+                worksheet.Cells["A1"].Value = $"Промежуток: {startDate.ToShortDateString()} - {endDate.ToShortDateString()}";
+                worksheet.Cells["A1"].Style.Font.Bold = true;
+
+                worksheet.Cells[2, 1].Value = "Наименование";
 
                 for (int i = 0; i < sellers.Count; i++)
                 {
-                    worksheet.Cells[1, i + 2].Value = sellers[i].SellerName;
+                    worksheet.Cells[2, i + 2].Value = sellers[i].SellerName;
                 }
 
-                worksheet.Cells[1, sellers.Count + 2].Value = "Общее количество продаж";
+                worksheet.Cells[2, sellers.Count + 2].Value = "Общее количество продаж";
 
-                int row = 2;
+                int row = 3;
 
                 foreach (var product in products)
                 {
@@ -260,7 +495,6 @@ namespace Project.MVVM.ViewModel
             }
         }
 
-
         public void CountBySellerExport(DateTime startDate, DateTime endDate)
         {
             using (var context = new ShineEntities())
@@ -275,11 +509,16 @@ namespace Project.MVVM.ViewModel
                 {
                     var worksheet = excelPackage.Workbook.Worksheets.Add(seller.SellerName);
 
-                    worksheet.Cells[1, 1].Value = "Наименование";
-                    worksheet.Cells[1, 2].Value = "Количество";
-                    worksheet.Cells[1, 3].Value = "Цена за единицу";
-                    worksheet.Cells[1, 4].Value = "Сумма";
-                    int row = 2;
+                    // Add the date range row at the top
+                    worksheet.Cells["A1:D1"].Merge = true;
+                    worksheet.Cells[1, 1].Value = $"Промежуток: {startDate.ToShortDateString()} - {endDate.ToShortDateString()}";
+                    worksheet.Cells[1, 1].Style.Font.Bold = true;
+
+                    worksheet.Cells[2, 1].Value = "Наименование";
+                    worksheet.Cells[2, 2].Value = "Количество";
+                    worksheet.Cells[2, 3].Value = "Цена за единицу";
+                    worksheet.Cells[2, 4].Value = "Сумма";
+                    int row = 3;
 
                     foreach (var product in products)
                     {
@@ -304,11 +543,24 @@ namespace Project.MVVM.ViewModel
                     worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
                 }
 
-                string fileName = "SalesBySeller.xlsx";
-                var fileStream = new FileStream(fileName, FileMode.Create);
-                excelPackage.SaveAs(fileStream);
-                fileStream.Close();
+                var saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+                saveFileDialog.FileName = "SalesBySeller.xlsx";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string fileName = saveFileDialog.FileName;
+
+                    using (var fileStream = new FileStream(fileName, FileMode.Create))
+                    {
+                        excelPackage.SaveAs(fileStream);
+                    }
+                }
             }
         }
+
+
+      
+
     }
 }

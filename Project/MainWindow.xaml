@@ -31,9 +31,12 @@
 
             <TextBlock Text="Shine"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Margin="50, 0"
                        Foreground="White"
-                       FontSize="22"/>
+                       FontSize="22" 
+                       FontFamily="/Fonts/#IBM Plex Sans"
+                       />
 
             <Button Grid.Column="1" 
                     HorizontalAlignment="Right"
@@ -47,7 +50,7 @@
                     Style="{StaticResource MinimizeButtonStyle}"
                     Command="{Binding MinimizeCommand}"
                     />
-
+            
             <StackPanel Grid.Row="1">
                 <RadioButton Content="Supplies"
                              Height="50"
@@ -55,7 +58,8 @@
                              FontSize="14"
                              IsChecked="True"
                              Style="{StaticResource MenuButtonTheme}"
-                             Command="{Binding OrdersViewCommand}"/>
+                             Command="{Binding OrdersViewCommand}"
+                             />
                 <RadioButton Content="Products"
                              Height="50"
                              Foreground="White"

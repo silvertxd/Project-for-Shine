@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModel="clr-namespace:Project.MVVM.ViewModel"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Project.MVVM.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="620" d:DesignWidth="1060">
     <UserControl.DataContext>
         <viewModel:SuppliesViewModel/>
     </UserControl.DataContext>
@@ -20,30 +21,24 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button Height="20" Width="50"/>
         <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding DisplaySupplies}" SelectedItem="{Binding SelectedSupply}" Name="dg" 
-          IsReadOnly="True" Grid.Row="0" Width="600" Grid.RowSpan="2" Height="400" VerticalAlignment="Top">
+          IsReadOnly="True" Grid.Row="0" Width="750" Grid.RowSpan="2" Height="470" VerticalAlignment="Top" Style="{StaticResource asd}" Margin="0, 37">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Supply Date" Binding="{Binding SupplyDateStr}" />
-                <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}" />
-                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
-                <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice}" />
-                <DataGridTextColumn Header="Seller Name" Binding="{Binding SellerName}" />
-
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                <DataGridTextColumn Header="Supply Date" Binding="{Binding SupplyDateStr}" Width="100"/>
+                <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}" Width="230"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="70"/>
+                <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice}" Width="90"/>
+                <DataGridTextColumn Header="Seller Name" Binding="{Binding SellerName}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="10">
-            <TextBlock Text="Operations"
-                   VerticalAlignment="Top"
-                   HorizontalAlignment="Center"
-                   Foreground="White"
-                   FontSize="22"
-                   Grid.Column="1"/>
-            <Button Content="Add supply" Width="100" Margin="10" Command="{Binding AddCommand}"/>
-            <Button Content="Delete supply" Width="100" Margin="10" Command="{Binding DeleteCommand}"/>
-            <Button Content="Edit supply" Width="100" Margin="10" Command="{Binding EditCommand}"/>
-            <Button Content="Refresh" Width="100" Margin="10" Command="{Binding RefreshCommand}"/>
+
+        <Button Content="Add supply"  Command="{Binding AddCommand}" Style="{StaticResource OperButton}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+
+        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="10" Grid.RowSpan="2">
+            <Button Content="Delete supply" Margin="10" Command="{Binding DeleteCommand}" Style="{StaticResource OperButton}"/>
+            <Button Content="Edit supply" Margin="10" Command="{Binding EditCommand}" Style="{StaticResource OperButton}"/>
+            <Button Content="Refresh" Margin="10" Command="{Binding RefreshCommand}" Style="{StaticResource OperButton}"/>
         </StackPanel>
     </Grid>
 </UserControl>

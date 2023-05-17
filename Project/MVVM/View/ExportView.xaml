@@ -39,6 +39,10 @@
             <RadioButton Foreground="White" Content="TotalSeller" IsChecked="{Binding TypeCommand, Converter={StaticResource StringToBooleanConverter}, ConverterParameter='TotalSeller'}"
                          Command="{Binding SalesBySellerCommand}"/>
         </StackPanel>
-        <Button Height="20" Width="70" Content="Export" Command="{Binding ExportCommand}"/>
+        <StackPanel Orientation="Horizontal">
+            <Button Height="20" Width="100" Content="Export" Command="{Binding ExportCommand}"/>
+            <Button Height="20" Width="100" Content="Send to telegram" Command="{Binding ExportCommandTelegram}"/>
+        </StackPanel>
+        
     </StackPanel>
 </UserControl>

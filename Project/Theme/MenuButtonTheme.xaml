@@ -20,6 +20,7 @@
             </Setter>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontFamily" Value="/Fonts/#IBM Plex Sans"/>
         </Style.Setters>
 
 

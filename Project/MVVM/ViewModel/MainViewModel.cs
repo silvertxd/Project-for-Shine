@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,6 +24,17 @@ namespace Project.MVVM.ViewModel
         public ProductsViewModel SuppliesVM { get; set; }
         public SellersViewModel SellersVM { get; set; }
         public ExportViewModel ExportVM { get; set; }
+
+        private string selectedLanguage;
+        public string SelectedLanguage
+        {
+            get { return selectedLanguage; }
+            set
+            {
+                selectedLanguage = value;
+            }
+        }
+
 
         private object _currentView;
 

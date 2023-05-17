@@ -12,11 +12,9 @@
                 <ResourceDictionary Source="Theme/CloseButtonTheme.xaml"/>
                 <ResourceDictionary Source="Theme/MinimizeButtonTheme.xaml"/>
                 <ResourceDictionary Source="Theme/ComboBoxTheme.xaml"/>
+                <ResourceDictionary Source="Theme/OperationsButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/DataGridTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-            <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
-                <view:HomeView/>
-            </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModel:ProductsViewModel}">
                 <view:ProductsView/>
