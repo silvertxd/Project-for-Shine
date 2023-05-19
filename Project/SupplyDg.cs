@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Project
 {
-    public class SupplyDg
+    public class SupplyDg :ObservableObject
     {
         public int Id { get; set; }
         public DateTime SupplyDate { get; set; }
@@ -15,5 +16,6 @@ namespace Project
         public int Quantity { get; set; }
         public string SellerName { get; set; }
         public double TotalPrice { get; set; }
+        public bool IsSelected { get; set; } = false; 
     }
 }

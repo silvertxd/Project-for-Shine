@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -26,5 +27,14 @@ namespace Project.MVVM.View
             
         }
 
+
+        private void BulletDecorator_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space || e.Key == Key.Enter)
+            {
+                CheckBox checkBox = (CheckBox)((BulletDecorator)sender).TemplatedParent;
+                checkBox.IsChecked = !checkBox.IsChecked;
+            }
+        }
     }
 }
