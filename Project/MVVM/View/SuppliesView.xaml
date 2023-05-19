@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
 
         <DataGrid AutoGenerateColumns="False" 
-                  ItemsSource="{Binding DisplaySupplies}" 
+                  ItemsSource="{Binding DisplaySupplies, UpdateSourceTrigger=PropertyChanged}" 
                   SelectedItem="{Binding SelectedSupply}" 
                   Name="dg" 
                   IsReadOnly="False"
@@ -36,7 +36,8 @@
                   Height="470"
                   VerticalAlignment="Top" 
                   Margin="0, 47"
-                  Style="{StaticResource DataGridStyle}" CanUserAddRows="False">
+                  Style="{StaticResource DataGridStyle}" 
+                  CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>

@@ -45,7 +45,7 @@ namespace Project.MVVM.ViewModel
 
         public ObservableCollection<Supply> Supplies
         {
-            get => _supplies; 
+            get => _supplies;
             set
             {
                 _supplies = value;
@@ -123,28 +123,17 @@ namespace Project.MVVM.ViewModel
             });
             DeleteCommand = new RelayCommand(async o =>
             {
-                if (SelectedSupply != null)
-                {
-                    await DeleteSupplyAsync();
-                }
-                else
-                    MessageBox.Show("Seler seller first");
+                await DeleteSupplyAsync();
             });
             EditCommand = new RelayCommand(async o =>
             {
-                if(SelectedSupply!= null)
+                using (var context = new ShineEntities())
                 {
-                    using (var context = new ShineEntities())
-                    {
-                        var supplyToEdit = await context.Supply.FindAsync(SelectedSupplies.FirstOrDefault().Id);
-                        var dialog = new EditSupplyWindow(supplyToEdit);
-                        dialog.ShowDialog();
-                        RefreshSuppliesAsync();
-                    }
+                    var supplyToEdit = await context.Supply.FindAsync(SelectedSupplies.FirstOrDefault().Id);
+                    var dialog = new EditSupplyWindow(supplyToEdit);
+                    dialog.ShowDialog();
+                    RefreshSuppliesAsync();
                 }
-                
-                else
-                    MessageBox.Show("Seler supply first");
             });
             RefreshCommand = new RelayCommand(o =>
             {
@@ -164,7 +153,7 @@ namespace Project.MVVM.ViewModel
             {
                 using (var context = new ShineEntities())
                 {
-                    foreach(var selsupply in SelectedSupplies)
+                    foreach (var selsupply in SelectedSupplies)
                     {
                         var supplyToRemove = await context.Supply.FindAsync(selsupply.Id);
                         context.Supply.Remove(supplyToRemove);

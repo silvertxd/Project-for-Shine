@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Project
 {
-    public class SupplyDg :ObservableObject
+    public class SupplyDg
     {
         public int Id { get; set; }
         public DateTime SupplyDate { get; set; }
