@@ -22,7 +22,6 @@ namespace Project.MVVM.ViewModel
         public RelayCommand EditCommand { get; set; }
         public RelayCommand RefreshCommand { get; set; }
         public RelayCommandCheck<SupplyDg> CheckBoxCommand { get; set; }
-        private readonly ShineEntities _context;
         private ObservableCollection<Supply> _supplies;
         private ObservableCollection<SupplyDg> _displaySupplies;
         public ObservableCollection<SupplyDg> DisplaySupplies
@@ -101,20 +100,22 @@ namespace Project.MVVM.ViewModel
         public SuppliesViewModel()
         {
             UpdateButtonVisibility();
-            _context = new ShineEntities();
-            DisplaySupplies = new ObservableCollection<SupplyDg>(
-                from s in _context.Supply
-                join p in _context.Product on s.ProductId equals p.Id
-                join sl in _context.Seller on s.SellerId equals sl.Id
-                select new SupplyDg
-                {
-                    Id = s.Id,
-                    SupplyDate = s.SupplyDate,
-                    ProductName = p.ProductName,
-                    Quantity = s.Quantity,
-                    SellerName = sl.SellerName,
-                    TotalPrice = s.TotalPrice
-                });
+            using (var context = new ShineEntities())
+            {
+                DisplaySupplies = new ObservableCollection<SupplyDg>(
+                    from s in context.Supply
+                    join p in context.Product on s.ProductId equals p.Id
+                    join sl in context.Seller on s.SellerId equals sl.Id
+                    select new SupplyDg
+                    {
+                        Id = s.Id,
+                        SupplyDate = s.SupplyDate,
+                        ProductName = p.ProductName,
+                        Quantity = s.Quantity,
+                        SellerName = sl.SellerName,
+                        TotalPrice = s.TotalPrice
+                    });
+            }
             AddCommand = new RelayCommand(o =>
             {
                 var dialog = new AddSupplyWindow();
@@ -168,19 +169,23 @@ namespace Project.MVVM.ViewModel
 
         private void RefreshSuppliesAsync()
         {
-            DisplaySupplies = new ObservableCollection<SupplyDg>(
-                from s in _context.Supply
-                join p in _context.Product on s.ProductId equals p.Id
-                join sl in _context.Seller on s.SellerId equals sl.Id
-                select new SupplyDg
-                {
-                    Id = s.Id,
-                    SupplyDate = s.SupplyDate,
-                    ProductName = p.ProductName,
-                    Quantity = s.Quantity,
-                    SellerName = sl.SellerName,
-                    TotalPrice = s.TotalPrice
-                });
+            using(var context = new ShineEntities())
+            {
+                DisplaySupplies = new ObservableCollection<SupplyDg>(
+    from s in context.Supply
+    join p in context.Product on s.ProductId equals p.Id
+    join sl in context.Seller on s.SellerId equals sl.Id
+    select new SupplyDg
+    {
+        Id = s.Id,
+        SupplyDate = s.SupplyDate,
+        ProductName = p.ProductName,
+        Quantity = s.Quantity,
+        SellerName = sl.SellerName,
+        TotalPrice = s.TotalPrice
+    });
+            }
+
             UpdateButtonVisibility();
         }
 
