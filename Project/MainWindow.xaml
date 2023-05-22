@@ -6,7 +6,7 @@
         xmlns:viewModel="clr-namespace:Project.MVVM.ViewModel"
         xmlns:local="clr-namespace:Project"
         mc:Ignorable="d"
-        Height="720" Width="1280" 
+        Height="720" Width="1080" 
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent"
@@ -83,7 +83,7 @@
             <ContentControl Grid.Row="1"
                             Grid.Column="1"
                             Content="{Binding CurrentView}"
-                            />
+                            Margin="10"/>
 
         </Grid>
     </Border>

@@ -58,9 +58,9 @@
                                     IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
-            <Button Content="Add supply"  Command="{Binding AddCommand}" Style="{StaticResource OperButton}" Margin="0, 10" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding IsAddCommandVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
-            <Button Content="Delete supply" Margin="0, 10" Command="{Binding DeleteCommand}" Style="{StaticResource OperButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding IsDeleteCommandVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
-            <Button Content="Edit supply" Margin="141, 10" Command="{Binding EditCommand}" Style="{StaticResource OperButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding IsEditCommandVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <Button Content="Add product"  Command="{Binding AddCommand}" Style="{StaticResource OperButton}" Margin="0, 10" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding IsAddCommandVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <Button Content="Delete product" Margin="0, 10" Command="{Binding DeleteCommand}" Style="{StaticResource OperButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding IsDeleteCommandVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <Button Content="Edit product" Margin="141, 10" Command="{Binding EditCommand}" Style="{StaticResource OperButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding IsEditCommandVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <btnimg:ImageButton Image="/Refresh_icon.png" Width="16" Height="16" Command="{Binding RefreshCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5, 60, 0, 0"/>
     </Grid>
 </UserControl>

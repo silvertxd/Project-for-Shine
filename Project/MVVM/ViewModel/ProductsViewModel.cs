@@ -163,16 +163,23 @@ namespace Project.MVVM.ViewModel
         {
             if (SelectedProducts.Count > 0)
             {
-                using (var context = new ShineEntities())
+                try
                 {
-                    foreach (var selproduct in SelectedProducts)
+                    using (var context = new ShineEntities())
                     {
-                        var productToRemove = await context.Product.FindAsync(selproduct.Id);
-                        context.Product.Remove(productToRemove);
+                        foreach (var selproduct in SelectedProducts)
+                        {
+                            var productToRemove = await context.Product.FindAsync(selproduct.Id);
+                            context.Product.Remove(productToRemove);
+                        }
+                        await context.SaveChangesAsync();
+                        RefreshProducts();
+                        SelectedProduct = null;
                     }
-                    await context.SaveChangesAsync();
-                    RefreshProducts();
-                    SelectedProduct = null;
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("This product is already in use!\n" + ex.Message);
                 }
             }
             UpdateButtonVisibility();

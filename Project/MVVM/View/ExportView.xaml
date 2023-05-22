@@ -14,35 +14,46 @@
 
     <UserControl.Resources>
         <local:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="/Fonts/#IBM Plex Sans"/>
+        </Style>
     </UserControl.Resources>
-
     <StackPanel HorizontalAlignment="Left">
+        <TextBlock Text="Export"
+                   Foreground="White"
+                   FontSize="22"
+                   Margin="0, 10, 0, 50"/>
+        <TextBlock Text="Period" FontSize="12"
+                   Foreground="DarkGray"/>
         <StackPanel Orientation="Horizontal">
             <ComboBox Height="40" 
                   Width="250" 
-                  Style="{StaticResource MyComboBoxStyle}" 
+                  Style="{StaticResource MyComboBoxStyleExport}" 
                   ItemsSource="{Binding Dates}"
                   SelectedItem="{Binding SelectedDate}"
                   Text="123"
                   
                   />
-            <DatePicker Width="200" SelectedDate="{Binding DateStart}" IsEnabled="{Binding EnableCalendar}" />
-            <DatePicker Width="200" SelectedDate="{Binding DateEnd}" IsEnabled="{Binding EnableCalendar}" />
+            <TextBlock Text="Or" FontSize="12"
+                   Foreground="DarkGray" Margin="10"/>
+            <DatePicker Width="200" SelectedDate="{Binding DateStart}" IsEnabled="{Binding EnableCalendar}" Style="{StaticResource DatePickerTheme}" Height="40"/>
+
+            <DatePicker Width="200" SelectedDate="{Binding DateEnd}" IsEnabled="{Binding EnableCalendar}" Style="{StaticResource DatePickerTheme}" Height="40"/>
         </StackPanel>
 
-        <TextBlock Text="Choose document"
-                   Foreground="White"
-                   FontSize="22"/>
+        <TextBlock Text="Document" FontSize="12" Margin="0, 30, 0, 0" Foreground="DarkGray"/>
         <StackPanel Orientation="Horizontal">
+            
+                   
             <RadioButton Foreground="White" Content="TotalSales" IsChecked="{Binding TypeCommand, Converter={StaticResource StringToBooleanConverter}, ConverterParameter='TotalSales'}"
-                         Command="{Binding ProductSalesCommand}"/>
+                         Command="{Binding ProductSalesCommand}" Style="{StaticResource radio}" Width="90" Height="30"/>
             <RadioButton Foreground="White" Content="TotalSeller" IsChecked="{Binding TypeCommand, Converter={StaticResource StringToBooleanConverter}, ConverterParameter='TotalSeller'}"
-                         Command="{Binding SalesBySellerCommand}"/>
+                         Command="{Binding SalesBySellerCommand}" Style="{StaticResource radio}" Width="90" Height="30"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Button Height="20" Width="100" Content="Export" Command="{Binding ExportCommand}"/>
-            <Button Height="20" Width="100" Content="Send to telegram" Command="{Binding ExportCommandTelegram}"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button Height="40" Width="150" Content="Export to excel" Command="{Binding ExportCommand}" Style="{StaticResource ExportButton}"/>
+            <Button Height="40" Width="150" Content="Send to telegram" Command="{Binding ExportCommandTelegram}" Style="{StaticResource ExportButton}" Margin="10"/>
         </StackPanel>
-        
     </StackPanel>
 </UserControl>

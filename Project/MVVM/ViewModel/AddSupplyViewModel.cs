@@ -75,7 +75,7 @@ namespace Project.MVVM.ViewModel
             }
         }
 
-        private DateTime _supplydate;
+        private DateTime _supplydate = DateTime.Now;
 
         public DateTime SupplyDate
         {

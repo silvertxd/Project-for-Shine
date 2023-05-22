@@ -7,16 +7,21 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:Project.AddWindows"
         mc:Ignorable="d"
-        Title="AddSupplyWindow" Height="650" Width="400"
+        Title="AddSupplyWindow" Height="500" Width="400"
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent"
         AllowsTransparency="True"
         MouseDown="Window_MouseDown">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="/Fonts/#IBM Plex Sans"/>
+        </Style>
+    </Window.Resources>
     <Window.DataContext>
         <viewModel:AddSupplyViewModel/>
     </Window.DataContext>
-    <Border Background="#062233"
+    <Border Background="#212c40"
             CornerRadius="10">
         <StackPanel>
             
@@ -30,27 +35,32 @@
                        HorizontalAlignment="Center"
                        Foreground="White"
                        FontSize="18" Margin="0, 20"/>
-            <Calendar SelectedDate="{Binding SupplyDate}"/>
+            <DatePicker SelectedDate="{Binding SupplyDate}" Width="200" Style="{StaticResource DatePickerTheme}"/>
             <TextBlock Text="Seller"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Foreground="White"
-                       FontSize="18" Margin="0, 20"/>
-            <ComboBox Width="200" 
+                       FontSize="18" Margin="0, 20"
+                       />
+            <ComboBox Width="230" 
                       ItemsSource="{Binding Sellers}"
                       DisplayMemberPath="SellerName" 
                       SelectedValuePath="Id"
-                      SelectedValue="{Binding SellerId}" />
+                      SelectedValue="{Binding SellerId}"
+                      Style="{StaticResource MyComboBoxStyle}"
+                      />
             <TextBlock Text="Product"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Foreground="White"
                        FontSize="18" Margin="0, 20"/>
-            <ComboBox Width="200" 
+            <ComboBox Width="230" 
                       ItemsSource="{Binding Products}"
                       DisplayMemberPath="ProductName" 
                       SelectedValuePath="Id"
-                      SelectedValue="{Binding ProductId}" />
+                      SelectedValue="{Binding ProductId}" 
+                      Style="{StaticResource MyComboBoxStyle}"
+                      />
             <TextBlock Text="Quantity"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
@@ -58,8 +68,8 @@
                        FontSize="18" Margin="0, 20"/>
             <xctk:IntegerUpDown x:Name="numericUpdownDiscount" Value="{Binding Quantity}" ShowButtonSpinner="False" Width="100"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10, 0">
-                <Button x:Name="btnEdit" Content="Add" Width="40" Margin="20" Command="{Binding AddCommand}"/>
-                <Button x:Name="btnCancel" Content="Cancel" Width="40" Margin="20" Command="{Binding CancelCommand}"/>
+                <Button x:Name="btnEdit" Content="Add" Width="50" Margin="20" Command="{Binding AddCommand}" Style="{StaticResource AddButton}"/>
+                <Button x:Name="btnCancel" Content="Cancel" Width="50" Margin="20" Command="{Binding CancelCommand}" Style="{StaticResource CancelButton}"/>
             </StackPanel>
 
         </StackPanel>

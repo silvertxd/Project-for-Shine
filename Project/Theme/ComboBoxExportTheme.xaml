@@ -6,7 +6,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="20" />
             </Grid.ColumnDefinitions>
-            <Border x:Name="Border" Grid.ColumnSpan="2" Background="#2e3d57" BorderBrush="#2e3d57" BorderThickness="1" />
+            <Border x:Name="Border" Grid.ColumnSpan="2" Background="#212c40" BorderBrush="#212c40" BorderThickness="1" />
             <Path x:Name="Arrow" Grid.Column="1" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z" />
         </Grid>
         <ControlTemplate.Triggers>
@@ -15,14 +15,14 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    <Style x:Key="MyComboBoxStyle" TargetType="{x:Type ComboBox}">
+    <Style x:Key="MyComboBoxStyleExport" TargetType="{x:Type ComboBox}">
         <Setter Property="Foreground" Value="White" />
 
-        <Setter Property="Background" Value="#2e3d57"/>
+        <Setter Property="Background" Value="#212c40"/>
         <Setter Property="BorderBrush" Value="#1E1E1E" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="5" />
-        <Setter Property="Tag" Value="#2e3d57" />
+        <Setter Property="Tag" Value="#212c40" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -56,7 +56,7 @@
    Focusable="False"
    PopupAnimation="Slide"
    Width="{Binding ActualWidth, ElementName=ContentSite}">
-                            <Border Name="DropDownBorder" Background="#2e3d57">
+                            <Border Name="DropDownBorder" Background="#212c40">
                                 <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
                                     <StackPanel IsItemsHost="True" />
                                 </ScrollViewer>
@@ -67,14 +67,14 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Tag" Value="#2e3d57"/>
+                            <Setter Property="Tag" Value="#212c40"/>
                         </Trigger>
 
                         <Trigger Property="IsFocused" Value="True">
                             <Setter Property="BorderBrush" Value="#007ACC" />
                         </Trigger>
                         <Trigger Property="IsDropDownOpen" Value="True">
-                            <Setter Property="Tag" Value="#2e3d57" />
+                            <Setter Property="Tag" Value="#212c40" />
                             <Setter Property="BorderBrush" Value="White" />
                         </Trigger>
 
@@ -86,7 +86,7 @@
     <Style TargetType="ComboBoxItem">
         <Style.Triggers>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter Property="Background" Value="#2e3d57" />
+                <Setter Property="Background" Value="#212c40" />
                 <Setter Property="Foreground" Value="White" />
             </Trigger>
         </Style.Triggers>

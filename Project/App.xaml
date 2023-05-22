@@ -12,9 +12,15 @@
                 <ResourceDictionary Source="Theme/CloseButtonTheme.xaml"/>
                 <ResourceDictionary Source="Theme/MinimizeButtonTheme.xaml"/>
                 <ResourceDictionary Source="Theme/ComboBoxTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ComboBoxExportTheme.xaml"/>
                 <ResourceDictionary Source="Theme/OperationsButtonTheme.xaml"/>
                 <ResourceDictionary Source="Theme/DataGridTheme.xaml"/>
+                <ResourceDictionary Source="Theme/AddButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/CancelButton.xaml"/>
                 <ResourceDictionary Source="Theme/ImageButton.xaml"/>
+                <ResourceDictionary Source="Theme/DatePickerTheme.xaml"/>
+                <ResourceDictionary Source="Theme/RadioButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ExportButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:ProductsViewModel}">

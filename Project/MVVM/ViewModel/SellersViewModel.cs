@@ -2,6 +2,7 @@
 using Project.Core;
 using Project.EditWindows;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
@@ -18,14 +19,19 @@ namespace Project.MVVM.ViewModel
         public RelayCommand DeleteCommand { get; set; }
         public RelayCommand EditCommand { get; set; }
         public RelayCommand RefreshCommand { get; set; }
+        public RelayCommandCheck<SellerDg> CheckBoxCommand { get; set; }
+
         private readonly ShineEntities _context;
-        private ObservableCollection<Seller> _sellers;
-        
-
-    
+        private ObservableCollection<SellerDg> _sellers;
 
 
-        public ObservableCollection<Seller> Sellers
+        public List<SellerDg> SelectedSellers
+        {
+            get { return Sellers.Where(x => x.IsSelected).ToList(); }
+        }
+
+
+        public ObservableCollection<SellerDg> Sellers
         {
             get { return _sellers; }
             set
@@ -35,8 +41,8 @@ namespace Project.MVVM.ViewModel
             }
         }
 
-        private Seller _selectedSeller;
-        public Seller SelectedSeller
+        private SellerDg _selectedSeller;
+        public SellerDg SelectedSeller
         {
             get => _selectedSeller;
             set
@@ -46,15 +52,49 @@ namespace Project.MVVM.ViewModel
             }
         }
 
+        private bool _isAddCommandVisible;
+        public bool IsAddCommandVisible
+        {
+            get => _isAddCommandVisible;
+            set
+            {
+                _isAddCommandVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isEditCommandVisible;
+        public bool IsEditCommandVisible
+        {
+            get => _isEditCommandVisible;
+            set
+            {
+                _isEditCommandVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isDeleteCommandVisible;
+        public bool IsDeleteCommandVisible
+        {
+            get => _isDeleteCommandVisible;
+            set
+            {
+                _isDeleteCommandVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         public SellersViewModel()
         {
+            UpdateButtonVisibility();
             _context = new ShineEntities();
-            LoadData();
-            AddCommand = new RelayCommand(async o =>
+            RefreshSellers();
+            AddCommand = new RelayCommand(o =>
             {
                 var dialog = new AddSellerWindow();
                 dialog.ShowDialog();
-                await RefreshSellersAsync();
+                RefreshSellers();
             });
 
             DeleteCommand = new RelayCommand(async o =>
@@ -65,57 +105,96 @@ namespace Project.MVVM.ViewModel
                 }
                 else
                     MessageBox.Show("Seler seller first");
+
             });
 
             EditCommand = new RelayCommand(async o =>
             {
-                if (SelectedSeller != null)
+                using (var context = new ShineEntities())
                 {
-                    using (var context = new ShineEntities())
-                    {
-                        var sellerToEdit = await context.Seller.FindAsync(SelectedSeller.Id);
-                        var dialog = new EditSellerWindow(sellerToEdit);
-                        dialog.ShowDialog();
-                        await RefreshSellersAsync();
-                    }
+                    var sellerToEdit = await context.Seller.FindAsync(SelectedSeller.Id);
+                    var dialog = new EditSellerWindow(sellerToEdit);
+                    dialog.ShowDialog();
+                    RefreshSellers();
                 }
-                else
-                    MessageBox.Show("Seler seller first");
             });
 
 
-            RefreshCommand = new RelayCommand(async o =>
+            RefreshCommand = new RelayCommand(o =>
             {
-                await RefreshSellersAsync();
+                RefreshSellers();
             });
+
+            CheckBoxCommand = new RelayCommandCheck<SellerDg>(CheckBoxCommandExecute);
         }
 
-        private async Task RefreshSellersAsync()
+        private void CheckBoxCommandExecute(SellerDg supply)
+        {
+            UpdateButtonVisibility();
+        }
+
+        private void RefreshSellers()
         {
             using (var context = new ShineEntities())
             {
-                Sellers = new ObservableCollection<Seller>(await context.Seller.ToListAsync());
+                Sellers = new ObservableCollection<SellerDg>(
+                    from s in context.Seller
+                    select new SellerDg
+                    {
+                        Id = s.Id,
+                        SellerName = s.SellerName,
+                        Discount = s.Discount
+                    });
             }
+            UpdateButtonVisibility();
         }
 
-        private void LoadData()
+        private void UpdateButtonVisibility()
         {
-            Sellers = new ObservableCollection<Seller>(_context.Seller.ToList());
+            int selectedCount = 0;
+
+            if (Sellers != null)
+            {
+                selectedCount = SelectedSellers.Count();
+            }
+
+            IsAddCommandVisible = (selectedCount == 0);
+            IsEditCommandVisible = (selectedCount == 1);
+            IsDeleteCommandVisible = (selectedCount >= 1);
         }
 
         private async Task DeleteSellerAsync()
         {
-            if (SelectedSeller != null)
+            if (SelectedSellers.Count() > 0)
             {
-                using (var context = new ShineEntities())
+                try
                 {
-                    var sellerToRemove = await context.Seller.FindAsync(SelectedSeller.Id);
-                    context.Seller.Remove(sellerToRemove);
-                    await context.SaveChangesAsync();
-                    await RefreshSellersAsync();
-                    SelectedSeller = null;
+                    using (var context = new ShineEntities())
+                    {
+                        foreach (var selseller in SelectedSellers)
+                        {
+                            var sellerToRemove = await context.Seller.FindAsync(selseller.Id);
+                            context.Seller.Remove(sellerToRemove);
+                        }
+                        await context.SaveChangesAsync();
+                        RefreshSellers();
+                        SelectedSeller = null;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("This seller is already in use\n" +ex.Message);
                 }
             }
+            UpdateButtonVisibility();
         }
+    }
+
+    public class SellerDg
+    {
+        public int Id { get; set; }
+        public string SellerName { get; set; }
+        public double Discount { get; set; }
+        public bool IsSelected { get; set; } = false;
     }
 }
